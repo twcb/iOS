@@ -11,6 +11,7 @@
 @interface CardMatchingGame()
 @property (nonatomic, readwrite) NSInteger score;    // make score writable in out private API
 @property (nonatomic, strong) NSMutableArray *cards; // of Card
+@property (nonatomic, readwrite) NSMutableString *status; //follows the algorithm for the game through user phrased output
 @end
 
 @implementation CardMatchingGame
@@ -44,8 +45,7 @@
     return self;
 }
 
-//#define MISMATCH_PENALTY 2            // it's a matter of preference what to use, however:
-static const int MISMATCH_PENALTY = 2;  // this is typed so it will show in the debugger
+static const int MISMATCH_PENALTY = 2;
 static const int MATCH_BONUS = 4;
 static const int COST_TO_CHOOSE = 1;
 
@@ -54,12 +54,20 @@ static const int COST_TO_CHOOSE = 1;
     Card *card = [self cardAtIndex:index];
     
     if (!card.isMatched) {
+        
+        [self.status setString:@"Matching: "];
+        
         if (card.isChosen) {
+            
             card.chosen = NO;
+            [self.status setString:@"Matching:"];
+        
         } else {
+            [self.status setString:@"Matching:"];
             // match against another card
             for (Card *otherCard in self.cards) {
                 if (otherCard.isChosen && !otherCard.isMatched) {
+                    [self.status stringByAppendingString:@""];
                     int matchScore = [card match:@[otherCard]];
                     
                     if (matchScore) {

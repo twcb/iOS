@@ -20,5 +20,5 @@
 - (Card *)cardAtIndex:(NSUInteger)index;
 
 @property (nonatomic, readonly) NSInteger score; // make score read only in public API
-
+@property (nonatomic, readonly) NSMutableString *status;
 @end
