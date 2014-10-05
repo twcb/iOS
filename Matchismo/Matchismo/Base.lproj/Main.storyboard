@@ -17,7 +17,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Score:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZKa-IT-5lo">
-                                <rect key="frame" x="20" y="527" width="136" height="21"/>
+                                <rect key="frame" x="20" y="527" width="88" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -359,6 +359,7 @@
                         <outlet property="modeSwitch" destination="HyS-dm-42C" id="Ksq-nk-Xb1"/>
                         <outlet property="redeal" destination="OYs-63-zHY" id="Bcv-Bn-s30"/>
                         <outlet property="scoreLabel" destination="ZKa-IT-5lo" id="viz-AA-71L"/>
+                        <outlet property="statusLabel" destination="Bnd-Vs-TWl" id="K7J-kC-73b"/>
                         <outletCollection property="cardButtons" destination="MoQ-d3-rQx" id="1iF-a8-kEF"/>
                         <outletCollection property="cardButtons" destination="JiN-La-zJl" id="pS8-Io-Tcb"/>
                         <outletCollection property="cardButtons" destination="dAp-lB-NWO" id="qU3-bS-sy7"/>

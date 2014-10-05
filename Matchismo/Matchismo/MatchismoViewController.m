@@ -15,6 +15,7 @@
 @property (nonatomic, strong) CardMatchingGame *game;
 @property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *cardButtons;
 @property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
+@property (weak, nonatomic) IBOutlet UILabel *statusLabel;
 @property (weak, nonatomic) IBOutlet UIButton *redeal;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *modeSwitch;
 
@@ -42,11 +43,32 @@
     return [[PlayingCardDeck alloc] init];
 }
 - (IBAction)redeal:(UIButton *)sender {
+    
+    self.modeSwitch.enabled = YES;
+    sender.enabled = NO;
+    self.scoreLabel.text = @"Score: ";
+    self.statusLabel.text = @"Choose a game mode!";
+    self.game = nil;
+    [self updateUI];
+    
 }
 - (IBAction)modeSwitch:(UISegmentedControl *)sender {
+    
+    self.numberOfCardsToMatch = sender.selectedSegmentIndex + 2;
+    self.game = [[CardMatchingGame alloc] initWithCardCount:[self.cardButtons count]
+                                                  usingDeck:[self createDeck]
+                                                matching_NumberOfCards:[self numberOfCardsToMatch]];
+    NSLog(@"Game mode changed to %ld", (unsigned long)self.numberOfCardsToMatch);
+
 }
 
 - (IBAction)touchCardButton:(UIButton *)sender {
+    
+    if (self.modeSwitch.enabled){
+        self.modeSwitch.enabled = NO;
+        self.redeal.enabled = YES;
+    }
+    
     NSUInteger cardIndex = [self.cardButtons indexOfObject:sender];
     [self.game chooseCardAtIndex:cardIndex];
     [self updateUI];
@@ -73,7 +95,7 @@
 
 - (UIImage *)backgroundImageForCard:(Card *)card
 {
-    return [UIImage imageNamed:(card.isChosen) ? @"cardFront" : @"cardBack"];
+    return [UIImage imageNamed:(card.isChosen) ? @"cardfront" : @"cardback"];
 }
 
 @end
