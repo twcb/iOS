@@ -15,20 +15,35 @@
 @property (nonatomic, strong) CardMatchingGame *game;
 @property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *cardButtons;
 @property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
+@property (weak, nonatomic) IBOutlet UIButton *redeal;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *modeSwitch;
+
+@property (nonatomic)NSUInteger numberOfCardsToMatch;
 @end
 
 @implementation MatchismoViewController
 
+- (NSUInteger)numberOfCardsToMatch
+{
+    if (!_numberOfCardsToMatch) _numberOfCardsToMatch = (unsigned long) 2;
+    return _numberOfCardsToMatch;
+}
+
 - (CardMatchingGame *)game
 {
     if (!_game) _game = [[CardMatchingGame alloc] initWithCardCount:[self.cardButtons count]
-                                                          usingDeck:[self createDeck]];
+                                                          usingDeck:[self createDeck]
+                                             matching_NumberOfCards:[self numberOfCardsToMatch]];
     return _game;
 }
 
 - (Deck *)createDeck
 {
     return [[PlayingCardDeck alloc] init];
+}
+- (IBAction)redeal:(UIButton *)sender {
+}
+- (IBAction)modeSwitch:(UISegmentedControl *)sender {
 }
 
 - (IBAction)touchCardButton:(UIButton *)sender {
@@ -48,8 +63,6 @@
                               forState:UIControlStateNormal];
         cardButton.enabled = !card.isMatched;
     }
-    
-    // %ld and explicit typecast to long to support 32bit as well as 64bit
     self.scoreLabel.text = [NSString stringWithFormat:@"Score: %ld", (long) self.game.score];
 }
 

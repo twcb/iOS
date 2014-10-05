@@ -23,6 +23,8 @@
 
 - (instancetype)initWithCardCount:(NSUInteger)count
                         usingDeck:(Deck *)deck
+           matching_NumberOfCards:(NSUInteger)numberOfCardsToMatch;
+
 {
     self = [super init];
     

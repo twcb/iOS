@@ -127,10 +127,10 @@
 		CE075F4519E1BB0700F903F5 /* Matchismo */ = {
 			isa = PBXGroup;
 			children = (
-				CE075F7419E1BB5F00F903F5 /* Model */,
 				CE075F5119E1BB0700F903F5 /* Main.storyboard */,
 				CE075F5419E1BB0700F903F5 /* MatchismoViewController.h */,
 				CE075F5519E1BB0700F903F5 /* MatchismoViewController.m */,
+				CE075F7419E1BB5F00F903F5 /* Model */,
 				CE075F5719E1BB0700F903F5 /* Images.xcassets */,
 				CE075F4619E1BB0700F903F5 /* Supporting Files */,
 			);
