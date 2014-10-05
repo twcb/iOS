@@ -55,16 +55,12 @@ static const int COST_TO_CHOOSE = 1;
     
     if (!card.isMatched) {
         
-        [self.status setString:@"Matching: "];
-        
         if (card.isChosen) {
             
             card.chosen = NO;
-            [self.status setString:@"Matching:"];
-        
+            
         } else {
-            [self.status setString:@"Matching:"];
-            // match against another card
+                        // match against another card
             for (Card *otherCard in self.cards) {
                 if (otherCard.isChosen && !otherCard.isMatched) {
                     [self.status stringByAppendingString:@""];
