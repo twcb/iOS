@@ -55,9 +55,9 @@
     return self;
 }
 
-static const int MISMATCH_PENALTY = 2;
-static const int MATCH_BONUS = 4;
-static const int COST_TO_CHOOSE = 1;
+static const int MISMATCH_PENALTY = 1;
+static const int MATCH_BONUS = 5;
+static const int COST_TO_CHOOSE = 2;
 
 - (void)chooseCardAtIndex:(NSUInteger)index
 {
@@ -78,38 +78,48 @@ static const int COST_TO_CHOOSE = 1;
             [self.status setString:[NSMutableString stringWithFormat:@"Matching %@ ,",card.contents]];
             NSLog(@"The value of status is now %@", self.status);
             //if(self.gameType == 3){}
+            int unmatchedCount = 1;
+            NSMutableArray *otherCards = [[NSMutableArray alloc]init];
             
                         // match against another card
             for (Card *otherCard in self.cards) {
-                if (otherCard.isChosen && !otherCard.isMatched) {
-                    
-                    [self.status setString:[NSMutableString stringWithFormat:@"%@ %@",self.status,otherCard.contents]];
-                    NSLog(@"The value of status is now %@", self.status);
-                    int matchScore = [card match:@[otherCard]];
-                    
-                    if (matchScore) {
-                        // increase score
-                        self.score += (matchScore * MATCH_BONUS);
-                        //inform user
-                        [self.status setString:[NSMutableString stringWithFormat:@"%@ matched %@. %d points earned",card.contents,otherCard.contents, (matchScore * MATCH_BONUS)]];
-                        // mark cards as matched
-                        card.matched = YES;
-                        otherCard.matched = YES;
-                    } else {
-                        // mismath penalty when cards do no match
-                        self.score -= MISMATCH_PENALTY;
+                while(unmatchedCount<self.gameType){
+                
+                    if (otherCard.isChosen && !otherCard.isMatched) {
                         
-                        [self.status setString:[NSMutableString stringWithFormat:@"%@ did not match %@. You lost %d points",card.contents,otherCard.contents, MISMATCH_PENALTY]];
-
+                        unmatchedCount++;
                         
-                        // flip othercard
-                        otherCard.chosen = NO;
+                        [otherCards addObject:otherCard];
+                        
+                        [self.status setString:[NSMutableString stringWithFormat:@"%@ %@",self.status,otherCard.contents]];
+                        NSLog(@"The value of status is now %@", self.status);
                     }
-                    
-                    break;
                 }
+                
+                unmatchedCount = 1;
+                
+                int matchScore = [card match:otherCards];
+                
+                if (matchScore) {
+                    // increase score
+                    self.score += (matchScore * MATCH_BONUS);
+                    //inform user
+                    [self.status setString:[NSMutableString stringWithFormat:@"%@ matched %@. %d points earned",card.contents,otherCard.contents, (matchScore * MATCH_BONUS)]];
+                    // mark cards as matched
+                    card.matched = YES;
+                    otherCard.matched = YES;
+                } else {
+                    // mismath penalty when cards do no match
+                    self.score -= MISMATCH_PENALTY;
+                    
+                    [self.status setString:[NSMutableString stringWithFormat:@"%@ did not match %@. You lost %d points",card.contents,otherCard.contents, MISMATCH_PENALTY]];
+
+                    
+                    // flip othercard
+                    otherCard.chosen = NO;
+                }
+                    //break; //when do you hit this break?
             }
-            
 
             self.score -= COST_TO_CHOOSE;
             card.chosen = YES;
