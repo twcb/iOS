@@ -26,7 +26,6 @@
 - (NSMutableString *)status
 {
     if (!_status) _status = [[NSMutableString stringWithString:@"Pick a card"] init];
-    NSLog(@"The value of status is now %@", self.status);
     return _status;
 }
 
@@ -51,6 +50,8 @@
         }
     }
     
+    //NSLog(@"The value of status is now %@", self.status);
+    
     return self;
 }
 
@@ -72,7 +73,7 @@ static const int COST_TO_CHOOSE = 1;
             
         } else {
             
-            [self.status setString:@"Matching: "];
+            [self.status setString:[NSMutableString stringWithFormat:@"Matching %@ ,",card.contents]];
             NSLog(@"The value of status is now %@", self.status);
             //if(self.gameType == 3){}
             
@@ -80,20 +81,24 @@ static const int COST_TO_CHOOSE = 1;
             for (Card *otherCard in self.cards) {
                 if (otherCard.isChosen && !otherCard.isMatched) {
                     
-                    [self.status stringByAppendingString:[NSString stringWithFormat:otherCard.contents,@", "]];
+                    [self.status setString:[NSMutableString stringWithFormat:@"%@ %@",self.status,otherCard.contents]];
                     NSLog(@"The value of status is now %@", self.status);
                     int matchScore = [card match:@[otherCard]];
                     
                     if (matchScore) {
                         // increase score
                         self.score += (matchScore * MATCH_BONUS);
-                        
+                        //inform user
+                        [self.status setString:[NSMutableString stringWithFormat:@"%@ matched %@. %d points earned",card.contents,otherCard.contents, (matchScore * MATCH_BONUS)]];
                         // mark cards as matched
                         card.matched = YES;
                         otherCard.matched = YES;
                     } else {
                         // mismath penalty when cards do no match
                         self.score -= MISMATCH_PENALTY;
+                        
+                        [self.status setString:[NSMutableString stringWithFormat:@"%@ did not match %@. You lost %d points",card.contents,otherCard.contents, MISMATCH_PENALTY]];
+
                         
                         // flip othercard
                         otherCard.chosen = NO;
@@ -105,7 +110,7 @@ static const int COST_TO_CHOOSE = 1;
             
             
             
-            [self.status setString:@"Pick a card"];
+            //[self.status setString:@"Pick a card"];
             NSLog(@"The value of status is now %@", self.status);
 
             self.score -= COST_TO_CHOOSE;
