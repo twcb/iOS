@@ -70,6 +70,8 @@ static const int COST_TO_CHOOSE = 1;
         if (card.isChosen) {
             
             card.chosen = NO;
+            [self.status setString:@"Pick a card"];
+            NSLog(@"The value of status is now %@", self.status);
             
         } else {
             
@@ -108,10 +110,6 @@ static const int COST_TO_CHOOSE = 1;
                 }
             }
             
-            
-            
-            //[self.status setString:@"Pick a card"];
-            NSLog(@"The value of status is now %@", self.status);
 
             self.score -= COST_TO_CHOOSE;
             card.chosen = YES;
