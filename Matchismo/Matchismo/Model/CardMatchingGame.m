@@ -12,6 +12,7 @@
 @property (nonatomic, readwrite) NSInteger score;    // make score writable in out private API
 @property (nonatomic, strong) NSMutableArray *cards; // of Card
 @property (nonatomic, readwrite) NSMutableString *status; //follows the algorithm for the game through user phrased output
+@property (nonatomic) NSUInteger gameType;
 @end
 
 @implementation CardMatchingGame
@@ -22,12 +23,20 @@
     return _cards;
 }
 
+- (NSMutableString *)status
+{
+    if (!_status) _status = [[NSMutableString stringWithString:@"Pick a card"] init];
+    NSLog(@"The value of status is now %@", self.status);
+    return _status;
+}
+
 - (instancetype)initWithCardCount:(NSUInteger)count
                         usingDeck:(Deck *)deck
            matching_NumberOfCards:(NSUInteger)numberOfCardsToMatch;
 
 {
     self = [super init];
+    self.gameType = numberOfCardsToMatch;
     
     if (self) {
         for (NSUInteger i = 0; i < count; i++) {
@@ -51,19 +60,28 @@ static const int COST_TO_CHOOSE = 1;
 
 - (void)chooseCardAtIndex:(NSUInteger)index
 {
+    NSLog(@"The value of status is now %@", self.status);
+    
     Card *card = [self cardAtIndex:index];
     
-    if (!card.isMatched) {
+        if (!card.isMatched) {
         
         if (card.isChosen) {
             
             card.chosen = NO;
             
         } else {
+            
+            [self.status setString:@"Matching: "];
+            NSLog(@"The value of status is now %@", self.status);
+            //if(self.gameType == 3){}
+            
                         // match against another card
             for (Card *otherCard in self.cards) {
                 if (otherCard.isChosen && !otherCard.isMatched) {
-                    [self.status stringByAppendingString:@""];
+                    
+                    [self.status stringByAppendingString:[NSString stringWithFormat:otherCard.contents,@", "]];
+                    NSLog(@"The value of status is now %@", self.status);
                     int matchScore = [card match:@[otherCard]];
                     
                     if (matchScore) {
@@ -85,8 +103,14 @@ static const int COST_TO_CHOOSE = 1;
                 }
             }
             
+            
+            
+            [self.status setString:@"Pick a card"];
+            NSLog(@"The value of status is now %@", self.status);
+
             self.score -= COST_TO_CHOOSE;
             card.chosen = YES;
+                                      
         }
     }
 }

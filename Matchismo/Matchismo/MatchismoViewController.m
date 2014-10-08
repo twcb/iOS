@@ -85,6 +85,7 @@
                               forState:UIControlStateNormal];
         cardButton.enabled = !card.isMatched;
     }
+    
     self.scoreLabel.text = [NSString stringWithFormat:@"Score: %ld", (long)self.game.score];
     self.statusLabel.text = self.game.status;
 }
